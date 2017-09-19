@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">DR Navigator</string>
+    <string name="spinner_prompt">Select Units</string>
+    <string name="update_label">Update Position</string>
+    <string name="clear_label">Clear Waypoints</string>
+</resources>
