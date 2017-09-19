@@ -85,8 +85,8 @@
                     android:hint="Destination Heading"
                     android:inputType="none"
                     android:focusable="false"
-                    android:text="0.0"
-                    android:background="@color/blue"/>
+                    android:text="True: 0.0  Magnetic: 0.0"
+                    android:textStyle="bold"/>
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -101,8 +101,8 @@
                     android:hint="Destination Distance"
                     android:inputType="none"
                     android:focusable="false"
-                    android:text="0.0"
-                    android:background="@color/blue"/>
+                    android:text="Paces: 0.0  Feet: 0.0  Meters: 0.0"
+                    android:textStyle="bold"/>
             </android.support.design.widget.TextInputLayout>
 
             <Button
