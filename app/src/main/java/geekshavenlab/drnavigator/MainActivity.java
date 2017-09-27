@@ -178,7 +178,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
                 et.requestFocus();
 
                 // Update waypoints
-                DateFormat df = new SimpleDateFormat("h:mm a");
+                DateFormat df = new SimpleDateFormat("h:mm a",Locale.US);
                 String date = df.format(Calendar.getInstance().getTime());
 
                 StringBuilder sb = new StringBuilder();
@@ -188,7 +188,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
             }
         });
 
-        // **** Setup Update Button ****
+        // **** Setup Clear Button ****
         final Button buttonClear = (Button) findViewById(R.id.clearButton);
         buttonClear.setOnClickListener(new View.OnClickListener() {
               public void onClick(View v) {
@@ -196,6 +196,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
                   et.setText("");
               }
         });
+
         // **** Setup Units spinners ****
 
         // Spinner element 1
@@ -205,18 +206,18 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
         spinner1.setOnItemSelectedListener(this);
 
         // Spinner Drop down elements
-        List<String> categories1 = new ArrayList<String>();
+        List<String> categories1 = new ArrayList<>();
         categories1.add("Paces");
         categories1.add("Feet");
         categories1.add("Meters");
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories1);
+        ArrayAdapter<String> dataAdapter1 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories1);
 
         // Drop down layout style - list view with radio button
         dataAdapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // attaching data adapter to spinner
+        // Attach data adapter to spinner
         spinner1.setAdapter(dataAdapter1);
 
         // Spinner element 2
@@ -226,17 +227,17 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
         spinner2.setOnItemSelectedListener(this);
 
         // Spinner Drop down elements
-        List<String> categories2 = new ArrayList<String>();
+        List<String> categories2 = new ArrayList<>();
         categories2.add("Feet");
         categories2.add("Meters");
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories2);
+        ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories2);
 
         // Drop down layout style - list view with radio button
         dataAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // attaching data adapter to spinner
+        // Attach data adapter to spinner
         spinner2.setAdapter(dataAdapter2);
 
         // Spinner element 3
@@ -246,17 +247,17 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
         spinner3.setOnItemSelectedListener(this);
 
         // Spinner Drop down elements
-        List<String> categories3 = new ArrayList<String>();
+        List<String> categories3 = new ArrayList<>();
         categories3.add("True");
         categories3.add("Magnetic");
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter3 = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, categories3);
+        ArrayAdapter<String> dataAdapter3 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories3);
 
         // Drop down layout style - list view with radio button
         dataAdapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-        // attaching data adapter to spinner
+        // Attach data adapter to spinner
         spinner3.setAdapter(dataAdapter3);
     }
 
