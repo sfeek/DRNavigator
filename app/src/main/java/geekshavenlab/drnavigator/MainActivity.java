@@ -34,8 +34,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
         );
 
-
-
         // **** Setup Update Button ****
         final Button buttonUpdate = (Button) findViewById(R.id.updateButton);
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +195,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
               }
         });
 
-        // **** Setup Units spinners ****
+        // **** Setup Units Spinners ****
 
         // Spinner element 1
         Spinner spinner1 = (Spinner) findViewById(R.id.paces_feet_meters);
