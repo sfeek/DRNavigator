@@ -1,223 +1,175 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:android.support.design="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/destHeading_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp">
+
+            <EditText
+                android:id="@+id/destHeading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/destination_heading"
+                android:inputType="none"
+                android:focusable="false"
+                android:text="@string/true_magnetic"
+                android:textStyle="bold"
+                android:autofillHints=""
+                tools:targetApi="o" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/destDistance_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/destDistance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/destination_distance"
+                android:inputType="none"
+                android:focusable="false"
+                android:text="@string/paces"
+                android:textStyle="bold"
+                android:autofillHints=""
+                tools:targetApi="o" />
+        </android.support.design.widget.TextInputLayout>
+
+         <android.support.design.widget.TextInputLayout
+            android:id="@+id/headingNew_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/headingNew"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/new_heading"
+                android:selectAllOnFocus="true"
+                android:inputType="numberSigned|numberDecimal"
+                android:autofillHints=""
+                tools:targetApi="o" />
+        </android.support.design.widget.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/truemag"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:spinnerMode="dropdown"/>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/destLat_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/distanceNew_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-                <EditText
-                    android:id="@+id/destLat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Destination Latitude"
-                    android:selectAllOnFocus="true"
-                    android:inputType="numberSigned|numberDecimal"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/destLong_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/destLong"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Destination Longitude"
-                    android:selectAllOnFocus="true"
-                    android:inputType="numberSigned|numberDecimal"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/currentLat_layout"
+            <EditText
+                android:id="@+id/distanceNew"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="20dp">
+                android:hint="@string/new_distance"
+                android:selectAllOnFocus="true"
+                android:inputType="numberSigned|numberDecimal"
+                android:autofillHints=""
+                tools:targetApi="o" />
+        </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/currentLat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Current Latitude"
-                    android:selectAllOnFocus="true"
-                    android:inputType="numberSigned|numberDecimal"/>
-            </android.support.design.widget.TextInputLayout>\
+        <Spinner
+            android:id="@+id/paces_feet_meters"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"/>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/currentLong_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/updateButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:background="#0f0"
+            android:text="@string/update_position"
+            android:textColor="#FFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-                <EditText
-                    android:id="@+id/currentLong"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Current Longitude"
-                    android:selectAllOnFocus="true"
-                    android:inputType="numberSigned|numberDecimal"/>
-            </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/paceDistance_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="30dp">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/destHeading_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="20dp">
-
-                <EditText
-                    android:id="@+id/destHeading"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Destination Heading"
-                    android:inputType="none"
-                    android:focusable="false"
-                    android:text="True: 0.0  Magnetic: 0.0"
-                    android:textStyle="bold"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/destDistance_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/destDistance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Destination Distance"
-                    android:inputType="none"
-                    android:focusable="false"
-                    android:text="Paces: 0.0  Feet: 0.0  Meters: 0.0"
-                    android:textStyle="bold"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <Button
-                android:id="@+id/updateButton"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:background="#0f0"
-                android:text="@string/update_label"
-                android:textColor="#FFF"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/headingNew_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/headingNew"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="New Heading"
-                    android:selectAllOnFocus="true"
-                    android:inputType="numberSigned|numberDecimal"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <Spinner
-                android:id="@+id/truemag"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"/>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/distanceNew_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <EditText
-                    android:id="@+id/distanceNew"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="New Distance"
-                    android:selectAllOnFocus="true"
-                    android:inputType="numberSigned|numberDecimal"/>
-            </android.support.design.widget.TextInputLayout>
-
-            <Spinner
-                android:id="@+id/paces_feet_meters"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"/>
-
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/paceDistance_layout"
+            <EditText
+                android:id="@+id/paceDistance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="30dp">
+                android:hint="@string/distance_one_pace"
+                android:selectAllOnFocus="true"
+                android:text="@string/default_pace"
+                android:inputType="numberSigned|numberDecimal"
+                android:autofillHints=""
+                tools:targetApi="o" />
+        </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/paceDistance"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Distance of One Pace"
-                    android:selectAllOnFocus="true"
-                    android:text="2.7"
-                    android:inputType="numberSigned|numberDecimal"/>
-            </android.support.design.widget.TextInputLayout>
+        <Spinner
+            android:id="@+id/pace_distance"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"/>
 
-            <Spinner
-                android:id="@+id/pace_distance"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"/>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/declination_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="30dp">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/declination_layout"
+            <EditText
+                android:id="@+id/declination"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="30dp">
+                android:hint="@string/magnetic_declination"
+                android:selectAllOnFocus="true"
+                android:text="@string/zero"
+                android:inputType="numberSigned|numberDecimal"
+                android:autofillHints=""
+                tools:targetApi="o" />
+        </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/declination"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Magnetic Declination"
-                    android:selectAllOnFocus="true"
-                    android:text="0.0"
-                    android:inputType="numberSigned|numberDecimal"/>
-            </android.support.design.widget.TextInputLayout>
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/waypoints_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="30dp">
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/waypoints_layout"
+            <EditText
+                android:id="@+id/waypoints"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="30dp">
+                android:hint="@string/waypoints"
+                android:selectAllOnFocus="true"
+                android:inputType="textMultiLine"
+                android:autofillHints=""
+                tools:targetApi="o" />
+        </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/waypoints"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Waypoints"
-                    android:selectAllOnFocus="true"
-                    android:inputType="textMultiLine"/>
-            </android.support.design.widget.TextInputLayout>
+        <Button
+            android:id="@+id/clearButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="@string/clear_waypoints" />
 
-            <Button
-                android:id="@+id/clearButton"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="@string/clear_label" />
-
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>

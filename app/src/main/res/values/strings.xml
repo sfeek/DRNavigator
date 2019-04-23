@@ -1,6 +1,21 @@
 <resources>
     <string name="app_name">DR Navigator</string>
-    <string name="spinner_prompt">Select Units</string>
-    <string name="update_label">Update Position</string>
-    <string name="clear_label">Clear Waypoints</string>
+    <string name="destination_latitude">Destination Latitude</string>
+    <string name="destination_longitude">Destination Longitude</string>
+    <string name="magnetic_declination">Magnetic Declination</string>
+    <string name="waypoints">Waypoints</string>
+    <string name="current_latitude">Current Latitude</string>
+    <string name="current_longitude">Current Longitude</string>
+    <string name="destination_heading">Destination Heading</string>
+    <string name="true_magnetic">True: 0.0  Magnetic: 0.0</string>
+    <string name="destination_distance">Destination Distance</string>
+    <string name="paces">Paces: 0.0  Feet: 0.0  Meters: 0.0</string>
+    <string name="new_heading">New Heading</string>
+    <string name="new_distance">New Distance</string>
+    <string name="zero">0.0</string>
+    <string name="distance_one_pace">Distance of One Pace</string>
+    <string name="default_pace">2.7</string>
+    <string name="clear_waypoints">RESET</string>
+    <string name="update_position">Update Position</string>
+
 </resources>

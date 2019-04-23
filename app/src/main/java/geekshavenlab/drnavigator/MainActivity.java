@@ -2,7 +2,6 @@ package geekshavenlab.drnavigator;
 
 import android.os.Bundle;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Formatter;
 import java.util.List;
 import java.util.Locale;
@@ -11,6 +10,7 @@ import java.util.Calendar;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import android.app.Activity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.Button;
 import android.widget.AdapterView;
@@ -25,90 +25,50 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity implements OnItemSelectedListener{
 
+    double destLat = 0.0;
+    double destLong = 0.0;
+    double currentLat = 0.0;
+    double currentLong = 0.0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
-        );
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
 
         // **** Setup Update Button ****
-        final Button buttonUpdate = (Button) findViewById(R.id.updateButton);
+        final Button buttonUpdate = findViewById(R.id.updateButton);
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                double destLat = 0.0;
-                double destLong = 0.0;
-                double currentLat = 0.0;
-                double currentLong = 0.0;
                 double newHeading = 0.0;
                 double newDistance = 0.0;
                 double declination = 0.0;
                 double paceDistance = 0.0;
 
                 // Get Distance Unit
-                Spinner sp = (Spinner) findViewById(R.id.paces_feet_meters);
+                Spinner sp = findViewById(R.id.paces_feet_meters);
                 String distanceUnits = sp.getSelectedItem().toString();
 
                 // Get Pace Distance Unit
-                sp = (Spinner) findViewById(R.id.pace_distance);
+                sp = findViewById(R.id.pace_distance);
                 String paceUnits = sp.getSelectedItem().toString();
 
                 // Get Pace Distance Unit
-                sp = (Spinner) findViewById(R.id.truemag);
+                sp = findViewById(R.id.truemag);
                 String trueMag = sp.getSelectedItem().toString();
 
-                // Get Destination Latitude
-                EditText et = (EditText) findViewById(R.id.destLat);
-                String tmp = et.getText().toString();
-                if (!tmp.equals("")) {destLat = Double.valueOf(et.getText().toString());}
-                if (destLat < -90.0 || destLat > 90.0)
-                {
-                    Toast.makeText(v.getContext(), "Dest. Lat. must be >= -90 and <= 90", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                // Get Destination Longitude
-                et = (EditText) findViewById(R.id.destLong);
-                tmp = et.getText().toString();
-                if (!tmp.equals("")) {destLong = Double.valueOf(et.getText().toString());}
-                if (destLong < -180.0 || destLong > 180.0)
-                {
-                    Toast.makeText(v.getContext(), "Dest. Long. must be >= -180 and <= 180", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                // Get Current Latitude
-                et = (EditText) findViewById(R.id.currentLat);
-                tmp = et.getText().toString();
-                if (!tmp.equals("")) {currentLat = Double.valueOf(et.getText().toString());}
-                if (currentLat < -90.0 || currentLat > 90.0)
-                {
-                    Toast.makeText(v.getContext(), "Current Lat. must be >= -90 and <= 90", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                // Get Current Longitude
-                et = (EditText) findViewById(R.id.currentLong);
-                tmp = et.getText().toString();
-                if (!tmp.equals("")) {currentLong = Double.valueOf(et.getText().toString());}
-                if (currentLong < -180.0 || currentLong > 180.0)
-                {
-                    Toast.makeText(v.getContext(), "Current Long. must be >= -180 and <= 180", Toast.LENGTH_LONG).show();
-                    return;
-                }
-
-                // Get Destination Heading Objects
-                EditText destHeading = (EditText) findViewById(R.id.destHeading);
+               // Get Destination Heading Objects
+                EditText destHeading = findViewById(R.id.destHeading);
 
                 // Get Destination Distance Objects
-                EditText destDistance = (EditText) findViewById(R.id.destDistance);
+                EditText destDistance = findViewById(R.id.destDistance);
 
                 //Get New Heading
-                et = (EditText) findViewById(R.id.headingNew);
-                tmp = et.getText().toString();
+                EditText et = findViewById(R.id.headingNew);
+                String tmp = et.getText().toString();
                 if (!tmp.equals("")) {newHeading = Double.valueOf(et.getText().toString());}
                 if (newHeading < 0 || newHeading > 360.0)
                 {
@@ -117,7 +77,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
                 }
 
                 //Get New Distance
-                et = (EditText) findViewById(R.id.distanceNew);
+                et = findViewById(R.id.distanceNew);
                 tmp = et.getText().toString();
                 if (!tmp.equals("")) {newDistance = Double.valueOf(et.getText().toString());}
                 if (newDistance < 0)
@@ -127,7 +87,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
                 }
 
                 //Get Declination
-                et = (EditText) findViewById(R.id.declination);
+                et = findViewById(R.id.declination);
                 tmp = et.getText().toString();
                 if (!tmp.equals("")) {declination = Double.valueOf(et.getText().toString());}
                 declination = -declination;
@@ -138,7 +98,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
                 }
 
                 //Get Pace Distance
-                et = (EditText) findViewById(R.id.paceDistance);
+                et = findViewById(R.id.paceDistance);
                 tmp = et.getText().toString();
                 if (!tmp.equals("")) {paceDistance = Double.valueOf(et.getText().toString());}
                 if (paceDistance < 0)
@@ -159,46 +119,70 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
                 double newLat = CalculateLatitude(currentLat,newHeading,newDistance);
                 double newLong = CalculateLongitude(currentLat,currentLong,newLat,newHeading,newDistance);
 
+                if (destLat == 0.0 && destLong == 0.0)
+                {
+                    destLat = newLat;
+                    destLong = newLong;
+                    newLat = 0.0;
+                    newLong = 0.0;
+                }
+                else
+                {
+                    // Update waypoints after first one is done
+                    DateFormat df = new SimpleDateFormat("h:mm a",Locale.US);
+                    String date = df.format(Calendar.getInstance().getTime());
+                    String magtrue;
+                    if (trueMag.equals("Magnetic"))
+                        magtrue = "Mag";
+                    else
+                        magtrue = "True";
+
+                    StringBuilder sb = new StringBuilder();
+                    Formatter fm = new Formatter(sb, Locale.US);
+                    et = findViewById(R.id.waypoints);
+                    if (distanceUnits.equals("Paces")) et.append(fm.format("%s: %.1f Deg %s, %.1f Paces\n",date,newHeading,magtrue,newDistance / paceDistance).toString());
+                    if (distanceUnits.equals("Feet")) et.append(fm.format("%s: %.1f Deg %s, %.1f Feet\n",date,newHeading,magtrue,newDistance * 3.28084).toString());
+                    if (distanceUnits.equals("Meters")) et.append(fm.format("%s: %.1f Deg %s, %.1f Meters\n",date,newHeading,magtrue,newDistance).toString());
+                }
+
+                currentLat = newLat;
+                currentLong = newLong;
+
                 double heading = CalculateBearing(newLat,newLong,destLat,destLong);
                 double distance = CalculateDistance(newLat,newLong,destLat,destLong);
+
 
                 // Update the display
                 setDestHeading(destHeading,heading,declination);
                 setDestDistance(destDistance,distance,paceDistance);
-                setLatitude((EditText) findViewById(R.id.currentLat),newLat);
-                setLongitude((EditText) findViewById(R.id.currentLong),newLong);
 
                 // Clear the Heading and Distance Fields
-                et = (EditText) findViewById(R.id.distanceNew);
+                et = findViewById(R.id.distanceNew);
                 et.setText("");
-                et = (EditText) findViewById(R.id.headingNew);
+                et = findViewById(R.id.headingNew);
                 et.setText("");
                 et.requestFocus();
-
-                // Update waypoints
-                DateFormat df = new SimpleDateFormat("h:mm a",Locale.US);
-                String date = df.format(Calendar.getInstance().getTime());
-
-                StringBuilder sb = new StringBuilder();
-                Formatter fm = new Formatter(sb, Locale.US);
-                et = (EditText) findViewById(R.id.waypoints);
-                et.append(fm.format("%s: %.6f,%.6f\n",date,newLat,newLong).toString());
             }
         });
 
         // **** Setup Clear Button ****
-        final Button buttonClear = (Button) findViewById(R.id.clearButton);
+        final Button buttonClear = findViewById(R.id.clearButton);
         buttonClear.setOnClickListener(new View.OnClickListener() {
               public void onClick(View v) {
-                  EditText et = (EditText) findViewById(R.id.waypoints);
+                  EditText et = findViewById(R.id.waypoints);
                   et.setText("");
+                  destLat = 0.0;
+                  destLong = 0.0;
+                  currentLat = 0.0;
+                  currentLong = 0.0;
+                  buttonUpdate.performClick();
               }
         });
 
         // **** Setup Units Spinners ****
 
         // Spinner element 1
-        Spinner spinner1 = (Spinner) findViewById(R.id.paces_feet_meters);
+        Spinner spinner1 = findViewById(R.id.paces_feet_meters);
 
         // Spinner click listener
         spinner1.setOnItemSelectedListener(this);
@@ -219,7 +203,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
         spinner1.setAdapter(dataAdapter1);
 
         // Spinner element 2
-        Spinner spinner2 = (Spinner) findViewById(R.id.pace_distance);
+        Spinner spinner2 = findViewById(R.id.pace_distance);
 
         // Spinner click listener
         spinner2.setOnItemSelectedListener(this);
@@ -239,7 +223,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
         spinner2.setAdapter(dataAdapter2);
 
         // Spinner element 3
-        Spinner spinner3 = (Spinner) findViewById(R.id.truemag);
+        Spinner spinner3 = findViewById(R.id.truemag);
 
         // Spinner click listener
         spinner3.setOnItemSelectedListener(this);
@@ -262,8 +246,6 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
     // Overrides for onItemSelected event
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        // On selecting a spinner item
-        String item = parent.getItemAtPosition(position).toString();
     }
     public void onNothingSelected(AdapterView<?> arg0) {
         // TODO Auto-generated method stub
