@@ -7,9 +7,9 @@
     <string name="current_latitude">Current Latitude</string>
     <string name="current_longitude">Current Longitude</string>
     <string name="destination_heading">Destination Heading</string>
-    <string name="true_magnetic">True: 0.0  Magnetic: 0.0</string>
+    <string name="true_magnetic">True:0.0\u0020\u0020Mag:0.0</string>
     <string name="destination_distance">Destination Distance</string>
-    <string name="paces">Paces: 0.0  Feet: 0.0  Meters: 0.0</string>
+    <string name="paces">Paces:0.0\u0020\u0020Feet:0.0\u0020\u0020Meters:0.0</string>
     <string name="new_heading">New Heading</string>
     <string name="new_distance">New Distance</string>
     <string name="zero">0.0</string>

@@ -10,7 +10,6 @@ import java.util.Calendar;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import android.app.Activity;
-import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.Button;
 import android.widget.AdapterView;
@@ -43,8 +42,8 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
         buttonUpdate.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                double newHeading = 0.0;
-                double newDistance = 0.0;
+                double newHeading;
+                double newDistance;
                 double declination = 0.0;
                 double paceDistance = 0.0;
 
@@ -69,7 +68,10 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
                 //Get New Heading
                 EditText et = findViewById(R.id.headingNew);
                 String tmp = et.getText().toString();
-                if (!tmp.equals("")) {newHeading = Double.valueOf(et.getText().toString());}
+                if (!tmp.equals(""))
+                    newHeading = Double.valueOf(et.getText().toString());
+                else
+                    return;
                 if (newHeading < 0 || newHeading > 360.0)
                 {
                     Toast.makeText(v.getContext(), "New Heading must be >= 0 and <= 360", Toast.LENGTH_LONG).show();
@@ -79,10 +81,13 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
                 //Get New Distance
                 et = findViewById(R.id.distanceNew);
                 tmp = et.getText().toString();
-                if (!tmp.equals("")) {newDistance = Double.valueOf(et.getText().toString());}
-                if (newDistance < 0)
+                if (!tmp.equals(""))
+                    newDistance = Double.valueOf(et.getText().toString());
+                else
+                    return;
+                if (newDistance <= 0.0)
                 {
-                    Toast.makeText(v.getContext(), "New Distance cannot be negative", Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), "New Distance cannot be zero or negative", Toast.LENGTH_LONG).show();
                     return;
                 }
 
@@ -101,19 +106,20 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
                 et = findViewById(R.id.paceDistance);
                 tmp = et.getText().toString();
                 if (!tmp.equals("")) {paceDistance = Double.valueOf(et.getText().toString());}
-                if (paceDistance < 0)
+                if (paceDistance <= 0.0)
                 {
-                    Toast.makeText(v.getContext(), "Pace Distance cannot be negative", Toast.LENGTH_LONG).show();
+                    Toast.makeText(v.getContext(), "Pace Distance cannot be zero or negative", Toast.LENGTH_LONG).show();
                     return;
                 }
 
                 // Correct units for distance
                 if (paceUnits.equals("Feet")) {paceDistance = paceDistance / 3.28084;}
+
                 if (distanceUnits.equals("Paces")) {newDistance = newDistance * paceDistance;}
                 if (distanceUnits.equals("Feet")) {newDistance = newDistance / 3.28084;}
 
                 // Correct Heading
-                if (trueMag.equals("Magnetic")) newHeading = newHeading - declination;
+                if (trueMag.equals("Magnetic")) newHeading -= declination;
 
                 // Calculate our new position
                 double newLat = CalculateLatitude(currentLat,newHeading,newDistance);
@@ -131,26 +137,29 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
                     // Update waypoints after first one is done
                     DateFormat df = new SimpleDateFormat("h:mm a",Locale.US);
                     String date = df.format(Calendar.getInstance().getTime());
-                    String magtrue;
+                    String magTrue;
                     if (trueMag.equals("Magnetic"))
-                        magtrue = "Mag";
+                    {
+                        magTrue = "Mag";
+                        newHeading += declination; // Un-correct magnetic heading for display purposes
+                    }
                     else
-                        magtrue = "True";
+                        magTrue = "True";
 
                     StringBuilder sb = new StringBuilder();
                     Formatter fm = new Formatter(sb, Locale.US);
                     et = findViewById(R.id.waypoints);
-                    if (distanceUnits.equals("Paces")) et.append(fm.format("%s: %.1f Deg %s, %.1f Paces\n",date,newHeading,magtrue,newDistance / paceDistance).toString());
-                    if (distanceUnits.equals("Feet")) et.append(fm.format("%s: %.1f Deg %s, %.1f Feet\n",date,newHeading,magtrue,newDistance * 3.28084).toString());
-                    if (distanceUnits.equals("Meters")) et.append(fm.format("%s: %.1f Deg %s, %.1f Meters\n",date,newHeading,magtrue,newDistance).toString());
+                    if (distanceUnits.equals("Paces")) et.append(fm.format("%s: %.1f Deg %s, %.1f Paces\n",date,newHeading,magTrue,newDistance / paceDistance).toString());
+                    if (distanceUnits.equals("Feet")) et.append(fm.format("%s: %.1f Deg %s, %.1f Feet\n",date,newHeading,magTrue,newDistance * 3.28084).toString());
+                    if (distanceUnits.equals("Meters")) et.append(fm.format("%s: %.1f Deg %s, %.1f Meters\n",date,newHeading,magTrue,newDistance).toString());
                 }
 
                 currentLat = newLat;
                 currentLong = newLong;
 
+                // Calculate new heading and bearing
                 double heading = CalculateBearing(newLat,newLong,destLat,destLong);
                 double distance = CalculateDistance(newLat,newLong,destLat,destLong);
-
 
                 // Update the display
                 setDestHeading(destHeading,heading,declination);
@@ -169,13 +178,23 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
         final Button buttonClear = findViewById(R.id.clearButton);
         buttonClear.setOnClickListener(new View.OnClickListener() {
               public void onClick(View v) {
+                  // Reset the display
                   EditText et = findViewById(R.id.waypoints);
                   et.setText("");
                   destLat = 0.0;
                   destLong = 0.0;
                   currentLat = 0.0;
                   currentLong = 0.0;
-                  buttonUpdate.performClick();
+
+                  // Get Destination Heading Objects
+                  EditText destHeading = findViewById(R.id.destHeading);
+
+                  // Get Destination Distance Objects
+                  EditText destDistance = findViewById(R.id.destDistance);
+
+                  // Update the display
+                  setDestHeading(destHeading,0.0,0.0);
+                  setDestDistance(destDistance,0.0,1.0);
               }
         });
 
@@ -261,25 +280,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
         if (mag < 0.0) mag = 360.0 + mag;
         if (mag >= 360.0) mag = mag - 360.0;
 
-        e.setText(fm.format("True: %.1f  Magnetic: %.1f",heading,mag).toString());
-    }
-
-    // Update Current Latitude
-    private void setLatitude(EditText e, double latitude)
-    {
-        StringBuilder sb = new StringBuilder();
-        Formatter fm = new Formatter(sb, Locale.US);
-
-         e.setText(fm.format("%.6f",latitude).toString());
-    }
-
-    // Update Current Longitude
-    private void setLongitude(EditText e, double longitude)
-    {
-        StringBuilder sb = new StringBuilder();
-        Formatter fm = new Formatter(sb, Locale.US);
-
-        e.setText(fm.format("%.6f",longitude).toString());
+        e.setText(fm.format("True:%.1f\u0020\u0020Mag:%.1f",heading,mag).toString());
     }
 
     // Display correct distance
@@ -290,7 +291,7 @@ public class MainActivity extends Activity implements OnItemSelectedListener{
         double feet = distance * 3.28084;
         double paces = distance / pace;
 
-        e.setText(fm.format("Paces: %.1f  Feet: %.1f  Meters: %.1f",paces,feet,distance).toString());
+        e.setText(fm.format("Paces:%.1f\u0020\u0020Feet:%.1f\u0020\u0020Meters:%.1f",paces,feet,distance).toString());
     }
 
     // Calculate the distance
